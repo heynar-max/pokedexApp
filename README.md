@@ -57,3 +57,44 @@ se pone en la parte mas alta de la aplicación app
 <NavigationContainer>
 ```
 se crea archivo creat navigator..
+
+## Paso 3: Estrutura de directorios
+
+todo lo de React native
+ ```sh
+Presentation
+```
+logica de negocio, codigo de typescript
+ ```sh
+infrastructure
+domain
+```
+
+api para el codigo externo
+theme tema global de la aplicaion
+helpers clases para simplificar el codigo, funciones especiales para ocupar o adaptaciones
+ ```sh
+config
+    api  
+    helpers
+    theme
+```
+
+casos de usos, para traer la informacion de un pokemos o todos los pokemones
+ ```sh
+actions
+```
+
+entities son los objectos que nosotros vamos a ocupar, hacer nuestro propio codigo sin depender,
+    es nuestro modelo
+ ```sh
+domain
+    entities 
+```
+
+los mappers tomar la informacion de api y pasarla a las entities
+ ```sh
+infrastructure
+    mappers
+    interfaces
+```

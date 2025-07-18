@@ -98,3 +98,18 @@ infrastructure
     mappers
     interfaces
 ```
+
+## Paso 3: Estrutura de directorios
+
+-- [**React Paper**](https://reactnativepaper.com//) --
+
+```sh
+npm install react-native-paper
+npm install react-native-safe-area-context
+
+```
+en el punto mas alto de la aplicacion . ejemplo App
+
+```sh
+<PaperProvider>
+```

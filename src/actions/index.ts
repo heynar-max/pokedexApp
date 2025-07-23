@@ -1,0 +1,2 @@
+
+export * from './pokemons/get-pokemons'

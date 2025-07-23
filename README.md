@@ -119,3 +119,15 @@ en el punto mas alto de la aplicacion . ejemplo App
 npm install axios
 
 ```
+
+## Paso 5: Instalar TanStack Query
+nos sirve para el cache
+
+-- [**TanStack**](https://tanstack.com/) --
+buscamos el TanStack Query
+-- [**TanStack Query**](https://tanstack.com/query/latest) --
+
+```sh
+npm i @tanstack/react-query
+
+```

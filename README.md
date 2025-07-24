@@ -131,3 +131,14 @@ buscamos el TanStack Query
 npm i @tanstack/react-query
 
 ```
+
+## Paso 6: Instalar Imagen Colors
+nos sirve para el color de la imagen, aunque se usa una version anterior por errores v1.5.2
+
+-- [**react-native-image-colors**](https://www.npmjs.com/package/react-native-image-colors) --
+
+
+```sh
+npm i react-native-image-colors@1.5.2
+
+```

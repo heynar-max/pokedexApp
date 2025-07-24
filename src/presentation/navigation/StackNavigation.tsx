@@ -4,7 +4,13 @@ import { HomeScreens } from '../screens/home/HomeScreens';
 import { SearchScreen } from '../screens/search/SearchScreen';
 import { PokemonScreen } from '../screens/pokemon/pokemonScreen';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+    HomeScreen: undefined;
+    PokemonScreen: { pokemonId: number };
+    SearchScreen: undefined;
+}
+
+const Stack = createStackNavigator<RootStackParams>();
 
 export const Navigation = () => {
     return (

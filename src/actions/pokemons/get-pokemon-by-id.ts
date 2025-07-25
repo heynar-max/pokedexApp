@@ -8,8 +8,6 @@ import { PokemonMapper } from '../../infrastructure/mappers/pokemon.mappers';
 export const getPokemonById = async(id: number): Promise<Pokemon> => {
 
     try {
-
-        console.log(`petición http ${ id }`);
         
         const { data } = await pokeApi.get<PokeAPIPokemon>(`/pokemon/${id}`);
 

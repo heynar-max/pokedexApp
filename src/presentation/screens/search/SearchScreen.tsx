@@ -1,20 +1,23 @@
-import { Text, View } from "react-native"
+import {  StyleSheet, View } from "react-native"
 import { ActivityIndicator, TextInput } from "react-native-paper";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { globalTheme } from "../../../config/theme/global-theme";
 import { FlatList } from "react-native-gesture-handler";
 import { PokemonCard } from "../../components/pokemons/PokemonCard";
-import { Pokemon } from "../../../domain";
+
 import { useQuery } from "@tanstack/react-query";
 import { getPokemonNamesWithId, getPokemonsByIds } from "../../../actions";
 import { useMemo, useState } from "react";
 import { FullScreenLoader } from "../../components/ui/FullScreenLoader";
+import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 
 
 export const SearchScreen = () => {
 
     const {top} = useSafeAreaInsets();
     const [term, setTerm] = useState('');
+
+    const debouncedValue = useDebouncedValue(term);
 
     const {isLoading, data: pokemonNameList = []} = useQuery({
         queryKey: ['pokemons', 'all'],
@@ -24,20 +27,20 @@ export const SearchScreen = () => {
     // Todo: aplicar debounce
     const pokemonNameIdList = useMemo(() => {
         // Es un número
-        if (!isNaN(Number(term))) {
+        if (!isNaN(Number(debouncedValue))) {
         const pokemon = pokemonNameList.find(
-            pokemon => pokemon.id === Number(term),
+            p => p.id === Number(debouncedValue),
         );
         return pokemon ? [pokemon] : [];
         }
 
-        if (term.length === 0) return [];
-        if (term.length < 3) return [];
+        if (debouncedValue.length === 0) return [];
+        if (debouncedValue.length < 3) return [];
 
-        return pokemonNameList.filter(pokemon =>
-        pokemon.name.includes(term.toLocaleLowerCase()),
+        return pokemonNameList.filter(p =>
+        p.name.includes(debouncedValue.toLocaleLowerCase()),
         );
-    }, [term]);
+    }, [debouncedValue, pokemonNameList]);
 
     const {isLoading: isLoadingPokemons, data: pokemons = []} = useQuery({
         queryKey: ['pokemons', 'by', pokemonNameIdList],
@@ -59,7 +62,7 @@ export const SearchScreen = () => {
                 onChangeText={setTerm}
                 value={term}
             />
-        {isLoadingPokemons && <ActivityIndicator style={{paddingTop: 20}} />}
+        {isLoadingPokemons && <ActivityIndicator style={styles.loading} />}
 
         <FlatList
             data={pokemons}
@@ -68,10 +71,18 @@ export const SearchScreen = () => {
             style={{paddingTop: top + 20}}
             renderItem={({item}) => <PokemonCard pokemon={item} />}
             showsVerticalScrollIndicator={false}
-            ListFooterComponent={ <View style={{ height: 150 }} />}
+            ListFooterComponent={<View style={styles.footerSpacing} />}
         />
 
         </View>
         
     )
 }
+const styles = StyleSheet.create({
+    loading: {
+        paddingTop: 20,
+    },
+    footerSpacing: {
+        height: 150,
+    },
+});

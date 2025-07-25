@@ -3,19 +3,24 @@ import { StyleSheet, View } from 'react-native'
 import { getPokemons } from '../../../actions';
 import { PokeballBg } from '../../components/ui/PokeballBg';
 import { FlatList } from 'react-native-gesture-handler';
-import { Text } from 'react-native-paper';
+import { FAB, Text, useTheme } from 'react-native-paper';
 import { globalTheme } from '../../../config/theme/global-theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PokemonCard } from '../../components/pokemons/PokemonCard';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../../navigation/StackNavigation';
 
 const HeaderTitle = () => (
     <Text variant="displayMedium">Pokédex</Text>
 );
 
-export const HomeScreens = () => {
+interface Props extends StackScreenProps<RootStackParams,'HomeScreen'>{};
+
+export const HomeScreens = ({ navigation }: Props) => {
 
     const {top} = useSafeAreaInsets();
     const queryClient = useQueryClient();
+    const theme = useTheme();
 
     //* Esta es la forma tradicional de una petición http
     // const {isLoading, data: pokemons = [] } = useQuery({
@@ -54,6 +59,15 @@ export const HomeScreens = () => {
                 onEndReached={() => fetchNextPage()}
                 showsVerticalScrollIndicator={false}
             />
+
+            <FAB 
+                label="Buscar"
+                style={[ globalTheme.fab, { backgroundColor: theme.colors.primary } ]}
+                mode="elevated"
+                color={ theme.dark ? 'black': 'white' }
+                onPress={() => navigation.push('SearchScreen') }
+            />
+    
         </View>
     )
 }

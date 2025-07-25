@@ -24,7 +24,7 @@ export const HomeScreens = () => {
     //     staleTime: 1000 * 60 * 60, // 60 minutes
     // });
 
-    const {isLoading, data, fetchNextPage} = useInfiniteQuery({
+    const { data, fetchNextPage} = useInfiniteQuery({
         queryKey: ['pokemons', 'infinite'],
         initialPageParam: 0,
         staleTime: 1000 * 60 * 60, // 60 minutes

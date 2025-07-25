@@ -13,7 +13,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 
 interface Props extends StackScreenProps<RootStackParams, 'PokemonScreen'> {}
 
-export const PokemonScreen = ({navigation, route}: Props) => {
+export const PokemonScreen = ({ route}: Props) => {
 
     const {isDark} = useContext(ThemeContext);
     const {pokemonId} = route.params;
@@ -23,7 +23,7 @@ export const PokemonScreen = ({navigation, route}: Props) => {
     ? require('../../../assets/pokeball-light.png')
     : require('../../../assets/pokeball-dark.png');
 
-    const {isLoading, data: pokemon} = useQuery({
+    const { data: pokemon} = useQuery({
         queryKey: ['pokemon', pokemonId],
         queryFn: () => getPokemonById(pokemonId),
         staleTime: 1000 * 60 * 60, // 1 hour
@@ -83,12 +83,72 @@ export const PokemonScreen = ({navigation, route}: Props) => {
                 ) }
             />
 
+            {/* abilities */}
+            <Text style={styles.subTitle}>Abilities</Text>
+            <FlatList
+                data={pokemon.abilities}
+                horizontal
+                keyExtractor={item => item}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
+                )}
+            />
+
+            {/* Stats */}
+            <Text style={styles.subTitle}>Stats</Text>
+
+            <FlatList
+                data={pokemon.stats}
+                keyExtractor={item => item.name}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                <View style={styles.statsContainer}>
+                    <Text style={styles.statName}>
+                    {Formatter.capitalize(item.name)}
+                    </Text>
+                    <Text style={styles.statValue}>{item.value}</Text>
+                </View>
+                )}
+            />
+
+            {/* Moves */}
+            <Text style={styles.subTitle}>Moves</Text>
+            <FlatList
+                data={pokemon.moves}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                centerContent
+                renderItem={({item}) => (
+                <View style={styles.statsContainer}>
+                    <Text style={styles.statName}>
+                    {Formatter.capitalize(item.name)}
+                    </Text>
+                    <Text style={styles.statValue}>lvl {item.level}</Text>
+                </View>
+                )}
+            />
+
+            {/* Games */}
+            <Text style={styles.subTitle}>Games</Text>
+            <FlatList
+                data={pokemon.games}
+                horizontal
+                keyExtractor={item => item}
+                showsHorizontalScrollIndicator={false}
+                centerContent
+                renderItem={({item}) => (
+                <Chip selectedColor="white">{Formatter.capitalize(item)}</Chip>
+                )}
+            />
+
 
             <View style={styles.bottomSpacer} />
             </ScrollView>
         
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     screen: {
@@ -139,5 +199,32 @@ const styles = StyleSheet.create({
     },
     bottomSpacer: {
         height: 100,
+    },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subTitle: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginHorizontal: 20,
+        marginTop: 20,
+    },
+    statsContainer: {
+        flexDirection: 'column',
+        marginHorizontal: 20,
+        alignItems: 'center',
+    },
+    statName: {
+    flex: 1,
+    color: 'white',
+    },
+    statValue: {
+        color: 'white',
+    },
+    moveLevel: {
+        color: 'white',
     },
 });
